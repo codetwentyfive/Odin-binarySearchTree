@@ -101,18 +101,45 @@ class Tree {
   }
 
   find(value) {
-    return this.findNode(this.root,value);
+    return this.findNode(this.root, value);
   }
 
-  findNode(node,value){
-    if (node===null|| node.data===value){
+  findNode(node, value) {
+    if (node === null || node.data === value) {
       return node;
     }
-    if (value< node.data){
-      return this.findNode(node.left,value);
+    if (value < node.data) {
+      return this.findNode(node.left, value);
     } else {
-      return this.findNode(node.right,value);
+      return this.findNode(node.right, value);
     }
+  }
+
+  levelOrder(callback) {
+    if (!this.root) {
+      return [];
+    }
+
+    const result = [];
+    const queue = [this.root];
+
+    while (queue.length > 0) {
+      const current = queue.shift();
+      if (callback) {
+        callback(current.data);
+      } else {
+        result.push(current.data);
+      }
+
+      if (current.left) {
+        queue.push(current.left);
+      }
+      if (current.right) {
+        queue.push(current.right);
+      }
+    }
+
+    return result;
   }
 }
 
@@ -128,3 +155,15 @@ myTree.prettyPrint(myTree.root);
 
 const nodeToFind = myTree.find(1); // Find a node with the value 5
 console.log(nodeToFind);
+
+// Callback function to print each node's data
+function printNodeData(data) {
+  console.log(data);
+}
+
+// Traverse the tree in level order and print node data
+myTree.levelOrder(printNodeData);
+
+// Or, traverse the tree in level order and get an array of node values
+const levelOrderArray = myTree.levelOrder();
+console.log(levelOrderArray);
