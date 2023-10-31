@@ -99,14 +99,32 @@ class Tree {
     }
     return current.data;
   }
+
+  find(value) {
+    return this.findNode(this.root,value);
+  }
+
+  findNode(node,value){
+    if (node===null|| node.data===value){
+      return node;
+    }
+    if (value< node.data){
+      return this.findNode(node.left,value);
+    } else {
+      return this.findNode(node.right,value);
+    }
+  }
 }
 
 // Example usage:
 const data = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324];
 const myTree = new Tree(data);
 
-myTree.insert(40); // Insert a value
+myTree.insert(2); // Insert a value
 myTree.prettyPrint(myTree.root);
 
 myTree.delete(7); // Delete a value
 myTree.prettyPrint(myTree.root);
+
+const nodeToFind = myTree.find(1); // Find a node with the value 5
+console.log(nodeToFind);
