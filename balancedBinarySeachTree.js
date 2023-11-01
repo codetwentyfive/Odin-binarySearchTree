@@ -141,6 +141,17 @@ class Tree {
 
     return result;
   }
+
+  height(node){
+    if(node===null){
+      return -1;
+    }
+
+    const leftHeight=this.height(node.left);
+    const rightHeight=this.height(node.right);
+
+    return Math.max(leftHeight,rightHeight) +1;
+  }
 }
 
 // Example usage:
@@ -167,3 +178,7 @@ myTree.levelOrder(printNodeData);
 // Or, traverse the tree in level order and get an array of node values
 const levelOrderArray = myTree.levelOrder();
 console.log(levelOrderArray);
+
+const rootNode = myTree.root;
+const heightOfRoot = myTree.height(rootNode);
+console.log("Height of the root node:", heightOfRoot);
