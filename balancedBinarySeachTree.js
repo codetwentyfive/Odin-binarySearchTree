@@ -152,6 +152,29 @@ class Tree {
 
     return Math.max(leftHeight,rightHeight) +1;
   }
+
+  depth(node){
+    return this.caluculateDepth(this.root,node);
+  }
+
+  caluculateDepth(currentNode,targetNode,depth=0){
+    if(currentNode===null){
+      return -1
+    }
+    if (currentNode===targetNode){
+      return depth;
+    }
+
+    const leftDepth=this.caluculateDepth(currentNode.left,targetNode,depth +1);
+    if (leftDepth>=0){
+      return leftDepth;
+    }
+    
+    const rightDepth=this.caluculateDepth(currentNode.right,targetNode,depth +1);
+    if (rightDepth>=0){
+      return rightDepth;
+    }
+  }
 }
 
 // Example usage:
@@ -179,6 +202,12 @@ myTree.levelOrder(printNodeData);
 const levelOrderArray = myTree.levelOrder();
 console.log(levelOrderArray);
 
+//calculting height of root node
 const rootNode = myTree.root;
 const heightOfRoot = myTree.height(rootNode);
 console.log("Height of the root node:", heightOfRoot);
+
+//return depth of node
+const targetNode = myTree.root.left.left; // Choose a target node in the tree
+const depthOfNode = myTree.depth(targetNode);
+console.log("Depth of the target node:", depthOfNode);
