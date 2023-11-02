@@ -142,42 +142,73 @@ class Tree {
     return result;
   }
 
-  height(node){
-    if(node===null){
+  height(node) {
+    if (node === null) {
       return -1;
     }
 
-    const leftHeight=this.height(node.left);
-    const rightHeight=this.height(node.right);
+    const leftHeight = this.height(node.left);
+    const rightHeight = this.height(node.right);
 
-    return Math.max(leftHeight,rightHeight) +1;
+    return Math.max(leftHeight, rightHeight) + 1;
   }
 
-  depth(node){
-    return this.caluculateDepth(this.root,node);
+  depth(node) {
+    return this.caluculateDepth(this.root, node);
   }
 
-  caluculateDepth(currentNode,targetNode,depth=0){
-    if(currentNode===null){
+  caluculateDepth(currentNode, targetNode, depth = 0) {
+    if (currentNode === null) {
       return -1
     }
-    if (currentNode===targetNode){
+    if (currentNode === targetNode) {
       return depth;
     }
 
-    const leftDepth=this.caluculateDepth(currentNode.left,targetNode,depth +1);
-    if (leftDepth>=0){
+    const leftDepth = this.caluculateDepth(currentNode.left, targetNode, depth + 1);
+    if (leftDepth >= 0) {
       return leftDepth;
     }
-    
-    const rightDepth=this.caluculateDepth(currentNode.right,targetNode,depth +1);
-    if (rightDepth>=0){
+
+    const rightDepth = this.caluculateDepth(currentNode.right, targetNode, depth + 1);
+    if (rightDepth >= 0) {
       return rightDepth;
     }
   }
+
+  isBalanced(root = this.root) {
+    return this.checkBalanced(root) !== -1;
+  }
+  
+  checkBalanced(node) {
+    if (node === null) {
+      return 0; // An empty tree is considered balanced
+    }
+  
+    const leftHeight = this.checkBalanced(node.left);
+    if (leftHeight === -1) {
+      return -1; // Left subtree is unbalanced
+    }
+  
+    const rightHeight = this.checkBalanced(node.right);
+    if (rightHeight === -1) {
+      return -1; // Right subtree is unbalanced
+    }
+  
+    const heightDiff = Math.abs(leftHeight - rightHeight);
+    if (heightDiff > 1) {
+      return -1; // The current node is unbalanced
+    }
+  
+    return Math.max(leftHeight, rightHeight) + 1; // Return the height of the current node
+  }
+  
+
+
+
 }
 
-// Example usage:
+// Example usages:
 const data = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324];
 const myTree = new Tree(data);
 
@@ -208,6 +239,18 @@ const heightOfRoot = myTree.height(rootNode);
 console.log("Height of the root node:", heightOfRoot);
 
 //return depth of node
-const targetNode = myTree.root.left.left; // Choose a target node in the tree
+const targetNode = myTree.root.left.left.left; // Choose a target node in the tree
 const depthOfNode = myTree.depth(targetNode);
 console.log("Depth of the target node:", depthOfNode);
+
+
+// checking for isBalanced():
+const balancedData = [1, 2, 3, 4, 5, 6, 7];
+const unbalancedData = [4, 2, 6, 1, 3, 5, 7];
+
+
+const balancedTree = new Tree(balancedData);
+const unbalancedTree = new Tree(unbalancedData);
+
+console.log("Is the balanced tree balanced?", balancedTree.isBalanced()); // true
+console.log("Is the unbalanced tree balanced?", unbalancedTree.isBalanced()); // false
