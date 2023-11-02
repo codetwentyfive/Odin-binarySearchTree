@@ -47,6 +47,30 @@ class Tree {
       this.prettyPrint(node.right, prefix + (isLeft ? '│   ' : '    '), false);
     }
   }
+  prettyPrintInOrder(node = this.root) {
+    if (node) {
+      this.prettyPrintInOrder(node.left);
+      console.log(node.data);
+      this.prettyPrintInOrder(node.right);
+    }
+  }
+
+  prettyPrintPreOrder(node = this.root) {
+    if (node) {
+      console.log(node.data);
+      this.prettyPrintPreOrder(node.left);
+      this.prettyPrintPreOrder(node.right);
+    }
+  }
+
+  prettyPrintPostOrder(node = this.root) {
+    if (node) {
+      this.prettyPrintPostOrder(node.left);
+      this.prettyPrintPostOrder(node.right);
+      console.log(node.data);
+    }
+  }
+
 
   insert(value) {
     this.root = this.insertNode(this.root, value);
@@ -225,6 +249,79 @@ class Tree {
   }
 
 }
+
+// Function to generate an array of random numbers < 100
+function generateRandomNumbers(count) {
+  const randomNumbers = [];
+  for (let i = 0; i < count; i++) {
+    randomNumbers.push(Math.floor(Math.random() * 100));
+  }
+  return randomNumbers;
+}
+
+
+// Function to generate an array of random numbers < 100
+function generateRandomNumbers(count) {
+  const randomNumbers = [];
+  for (let i = 0; i < count; i++) {
+    randomNumbers.push(Math.floor(Math.random() * 100));
+  }
+  return randomNumbers;
+}
+
+// Driver script
+function main() {
+  // Step 1: Create a binary search tree from an array of random numbers < 100
+  const randomNumbers = generateRandomNumbers(10); // Change 10 to the desired count
+  const bst = new Tree(randomNumbers);
+
+  // Step 2: Confirm that the tree is balanced
+  console.log("Is the tree balanced?", bst.isBalanced());
+
+  // Step 3: Print out all elements in level, pre, post, and in order
+  console.log("Level Order:");
+  console.log(bst.levelOrder());
+
+  console.log("Pre Order:");
+  console.log(bst.prettyPrintPreOrder(bst.root));
+
+  console.log("Post Order:");
+  console.log(bst.prettyPrintPostOrder(bst.root));
+
+  console.log("In Order:");
+  console.log(bst.prettyPrintInOrder(bst.root));
+
+  // Step 4: Unbalance the tree by adding several numbers > 100
+  bst.insert(101);
+  bst.insert(102);
+  bst.insert(103);
+
+  // Step 5: Confirm that the tree is unbalanced
+  console.log("Is the tree unbalanced?", !bst.isBalanced());
+
+  // Step 6: Balance the tree by calling rebalance
+  bst.rebalance();
+
+  // Step 7: Confirm that the tree is balanced after rebalancing
+  console.log("Is the tree balanced after rebalancing?", bst.isBalanced());
+
+  // Step 8: Print out all elements in level, pre, post, and in order after rebalancing
+  console.log("Level Order (After Rebalance):");
+  console.log(bst.levelOrder());
+
+  console.log("Pre Order (After Rebalance):");
+  console.log(bst.prettyPrintPreOrder(bst.root));
+
+  console.log("Post Order (After Rebalance):");
+  console.log(bst.prettyPrintPostOrder(bst.root));
+
+  console.log("In Order (After Rebalance):");
+  console.log(bst.prettyPrintInOrder(bst.root));
+}
+
+// Run the driver script
+main();
+
 /*
 // Example usages:
 const data = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324];
