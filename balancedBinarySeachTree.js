@@ -179,35 +179,53 @@ class Tree {
   isBalanced(root = this.root) {
     return this.checkBalanced(root) !== -1;
   }
-  
+
   checkBalanced(node) {
     if (node === null) {
       return 0; // An empty tree is considered balanced
     }
-  
+
     const leftHeight = this.checkBalanced(node.left);
     if (leftHeight === -1) {
       return -1; // Left subtree is unbalanced
     }
-  
+
     const rightHeight = this.checkBalanced(node.right);
     if (rightHeight === -1) {
       return -1; // Right subtree is unbalanced
     }
-  
+
     const heightDiff = Math.abs(leftHeight - rightHeight);
     if (heightDiff > 1) {
       return -1; // The current node is unbalanced
     }
-  
+
     return Math.max(leftHeight, rightHeight) + 1; // Return the height of the current node
   }
-  
 
 
+  rebalance() {
+    // Convert the tree to a sorted array using in-order traversal
+    const nodesArray = [];
+    this.inOrderTraversal(this.root, nodesArray);
 
+    // Build a new balanced tree from the sorted array
+    this.root = this.buildTree(nodesArray);
 }
 
+
+  inOrderTraversal(node, resultArray) {
+    if (node === null) {
+      return;
+    }
+
+    this.inOrderTraversal(node.left, resultArray);
+    resultArray.push(node.data);
+    this.inOrderTraversal(node.right, resultArray);
+  }
+
+}
+/*
 // Example usages:
 const data = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324];
 const myTree = new Tree(data);
@@ -254,3 +272,17 @@ const unbalancedTree = new Tree(unbalancedData);
 
 console.log("Is the balanced tree balanced?", balancedTree.isBalanced()); // true
 console.log("Is the unbalanced tree balanced?", unbalancedTree.isBalanced()); // false
+
+*/
+//checking for rebalance()
+
+const unbalancedData = [2, 1, 3, 4, null, null, 5, 6, null, 7,1,10,778];
+const unbalancedTree = new Tree(unbalancedData);
+
+console.log("Unbalanced Tree:");
+unbalancedTree.prettyPrint(unbalancedTree.root);
+
+unbalancedTree.rebalance();
+
+console.log("\nRebalanced Tree:");
+unbalancedTree.prettyPrint(unbalancedTree.root);
